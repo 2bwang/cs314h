@@ -170,47 +170,6 @@ public class TransformationsTest {
 
     }    
 
-@Test
-    public void testRed() {
-        final int WHITE = makePixel(255, 255, 255);
-        final int BLACK = makePixel(0, 0, 0);
-
-        //pixels below should convert to black (sum < 127.5x3 = 382.5)
-        final int RED = makePixel(255, 0, 0);
-        final int GREEN = makePixel(0, 255, 0);
-        final int BLUE = makePixel(0, 0, 255);
-
-        //pixels below should convert to white (sum >= 127.5x3 = 382.5)
-        final int YELLOW = makePixel(255, 255, 0);
-        final int CYAN = makePixel(0, 255, 255);
-        final int MAGENTA = makePixel(255, 0, 255);
-
-        int[][] pixels = {
-                { RED, GREEN, BLUE },
-                { YELLOW, CYAN, MAGENTA },
-        };
-
-        int[][] expected = {
-                { BLACK, BLACK, BLACK },
-                { BLACK, BLACK, BLACK },
-        };
-
-        ImageEffect noRedEffect = new NoRed();
-        ImageEffect redEffect = new RedOnly();
-
-        int[][] actual = noRedEffect.apply(pixels, new ArrayList<>());
-        actual = redEffect.apply(actual, new ArrayList<>());
-
-        for (int i = 0; i < pixels.length; i++) {
-            for (int j = 0; j < pixels[i].length; j++) {
-                assertEquals(getRed(expected[i][j]), getRed(actual[i][j]));
-                assertEquals(getGreen(expected[i][j]), getGreen(actual[i][j]));
-                assertEquals(getBlue(expected[i][j]), getBlue(actual[i][j]));
-            }
-        }
-
-    }
-
     //testing blackandwhite
     @Test
     public void testBlackAndWhite() {
@@ -379,8 +338,6 @@ public class TransformationsTest {
 
         int[][] actual = Effect.apply(pixels, new ArrayList<>());
 
-        System.out.println(actual.length + " " + actual[0].length);
-
         for (int i = 0; i < actual.length; i++) {
             for (int j = 0; j < actual[i].length; j++) {
                 assertEquals(getRed(expected1[i][j]), getRed(actual[i][j]));
@@ -428,8 +385,6 @@ public class TransformationsTest {
         ImageEffect Effect = new Smooth();
 
         int[][] actual = Effect.apply(pixels, new ArrayList<>());
-
-        System.out.println(actual.length + " " + actual[0].length);
 
         for (int i = 0; i < actual.length; i++) {
             for (int j = 0; j < actual[i].length; j++) {

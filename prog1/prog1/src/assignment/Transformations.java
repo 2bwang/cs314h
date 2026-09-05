@@ -281,8 +281,8 @@ class Smooth extends ImageEffect {
         for (int y = 0; y < pixels.length; y++) {
             for (int x = 0; x < pixels[y].length; x++) {
                 int avgRed = getRed(pixels[y][x]);
-                int avgGreen = getBlue(pixels[y][x]);
-                int avgBlue = getGreen(pixels[y][x]);
+                int avgGreen = getGreen(pixels[y][x]);
+                int avgBlue = getBlue(pixels[y][x]);
                 int divcounter = 1; //for edge pixels, dont need to divide by 9 but by the number of pixels used
                 if (x-1 >= 0) {
                     avgRed += getRed(pixels[y][x-1]);

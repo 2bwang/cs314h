@@ -172,39 +172,4 @@ public abstract class ImageEffect {
         }
         return pixels;
     }
-
-    //helper function to check if the image is jagged, returns rectangular (or square) array
-    public static int[][] jaggedCheck(int[][] pixels, boolean square) {
-        if (pixels == null) return null;
-
-        int height = pixels.length;
-        int width = 0;
-
-        //iterate through the rows to find max width
-        for (int y = 0; y < height; y++) {
-            width = Math.max(width, pixels[y].length);
-        }
-
-        //if we want a square array, whichever of height or width is larger is used
-        if (square) {
-            height = Math.max(height, width);
-            width = height;
-        }
-
-        //create a new array with the determined dimensions, copy values over
-        //have to be careful when iterating through new array, since some indexes might not exist in the original array
-        int[][] newPixels = new int[height][width];
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (y < pixels.length && x < pixels[y].length) { //check if x and y are in bounds of the original array
-                    newPixels[y][x] = pixels[y][x];
-                } else {
-                    newPixels[y][x] = makePixel(0,0,0); //fill new spaces with black
-                    //will lead to some images being deformed during transformations, but it's a simple solution
-                }
-            }
-        }
-
-        return newPixels;
-    }
 }

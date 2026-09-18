@@ -10,7 +10,18 @@ Time:
 
 Collaborators: n/a
 
-Comments:
+Comments: referenced java docs for help with:
+stringbuilder
+bufferedreader/writer
+random
+try/catch
+getClass()
+throw
+exception types
+lambda
+
+referenced jUnit docs for help with:
+assertThrows
 
 
 # Starter code info

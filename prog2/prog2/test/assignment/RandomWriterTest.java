@@ -277,6 +277,7 @@ public class RandomWriterTest {
         // assertEquals("Error: level of analysis must be non-negative and less than length of input file", error2.getMessage());
     }
 
+    //black box testing for input file with all the same letter, 1 line
     @Test 
     void testDup() throws IOException {
         //input file is all the same letter, output file is predictable 
@@ -295,5 +296,68 @@ public class RandomWriterTest {
         String output = br.readLine(); //should be null if the file is empty
 
         assertEquals("aaaaaaa", output);
+    }
+
+    //black box testing for input file with all the same letter, multiple lines
+    @Test 
+    void testDup2() throws IOException {
+        //input file is all the same letter, output file has two possibilies: a\na\na or \na\na\n
+        //a\n
+        //a\n
+        //a\n
+        //a\n
+        //a
+
+        HashMap<String, ArrayList<Character>> correct = new HashMap<>();
+        correct.put("a", new ArrayList<Character>(Arrays.asList('\n', '\n', '\n', '\n')));
+        correct.put("\n", new ArrayList<Character>(Arrays.asList('a', 'a', 'a', 'a')));
+
+        RandomWriter rw = (RandomWriter)(RandomWriter.createProcessor(1));
+        rw.readText("test_books/dupTest2.txt");
+
+        assertEquals(correct, rw.getMap());
+
+        //output should be aaaaaaa
+        RandomWriter.main(new String[] {"test_books/dupTest2.txt", "test_books/outputTest.txt", "1", "5"} );
+        BufferedReader br = new BufferedReader(new FileReader("test_books/outputTest.txt"));
+        //can't use readLine since it removes the newLines, have to use read()
+        int curChar;
+        StringBuilder output = new StringBuilder();
+        while ((curChar = br.read()) != -1) {
+            output.append((char)curChar);
+        }
+
+        //can't use assertEquals because 2 possible outputs, use assertTrue with .equals instead
+        assertTrue(output.toString().equals("a\na\na") || output.toString().equals("\na\na\n"));
+    }
+
+    //black box testing for input file with only newlines
+    @Test 
+    void testDup3() throws IOException {
+        //input file is all the same letter, output file has two possibilies: a\na\na or \na\na\n
+        //\n
+        //\n
+        //\n
+
+        HashMap<String, ArrayList<Character>> correct = new HashMap<>();
+        correct.put("\n", new ArrayList<Character>(Arrays.asList('\n', '\n')));
+
+        RandomWriter rw = (RandomWriter)(RandomWriter.createProcessor(1));
+        rw.readText("test_books/dupTest3.txt");
+
+        assertEquals(correct, rw.getMap());
+
+        //output should be aaaaaaa
+        RandomWriter.main(new String[] {"test_books/dupTest3.txt", "test_books/outputTest.txt", "1", "5"} );
+        BufferedReader br = new BufferedReader(new FileReader("test_books/outputTest.txt"));
+        //can't use readLine since it removes the newLines, have to use read()
+        int curChar;
+        StringBuilder output = new StringBuilder();
+        while ((curChar = br.read()) != -1) {
+            output.append((char)curChar);
+        }
+
+        //can't use assertEquals because 2 possible outputs, use assertTrue with .equals instead
+        assertTrue(output.toString().equals("\n\n\n\n\n"));
     }
 }

@@ -6,7 +6,7 @@ EID: bw27674
 
 Email: bw27674@my.utexas.edu
 
-Time: 
+Time: ~15 hours (spent lot of time debugging small stuff)
 
 Collaborators: n/a
 
@@ -23,6 +23,8 @@ lambda
 referenced jUnit docs for help with:
 assertThrows
 
+refereced this stackoverflow post for help with understand CRLF and LF
+https://stackoverflow.com/questions/1552749/difference-between-cr-lf-lf-and-cr-line-break-types
 
 # Starter code info
 ## Running the code

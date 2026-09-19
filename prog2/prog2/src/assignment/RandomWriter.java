@@ -87,7 +87,8 @@ public class RandomWriter implements TextProcessor {
       //since error 4 has already been checked, we can assume the file can be read and is valid
       BufferedReader br = new BufferedReader(new FileReader(args[0]));
       StringBuilder alltext = new StringBuilder();
-      while (br.ready()) {alltext.append(br.readLine() + " ");}
+      int nextChar;
+      while ((nextChar = br.read()) != -1) {alltext.append((char)nextChar);}
       if (Integer.parseInt(args[2]) < 0 || Integer.parseInt(args[2]) >= (alltext.length()-1)) { //-1 because we add a space to the end of each line
         throw new IllegalArgumentException("Error: level of analysis must be non-negative and less than length of input file");
       }
@@ -118,9 +119,15 @@ public class RandomWriter implements TextProcessor {
     public void readText(String inputFilename) throws IOException {
       BufferedReader br = new BufferedReader(new FileReader(inputFilename));
       //add a space to the end of each line
+      //dont need to bc each new line has /n, which counts as a character
+      //need test cases for this
 
-      while (br.ready()) {
-        alltext.append(br.readLine() + " ");
+      //readLine() deletes the newline character, have to manually add it back at the end. will have one extra at the last line
+      //br.ready() doesn't check for \n
+      //instead of using ready, ill try to read the next char in the conditional and assign it to a variable
+      int nextChar;
+      while ((nextChar = br.read()) != -1) {
+        alltext.append((char)nextChar);
       }
 
       br.close();
@@ -143,8 +150,9 @@ public class RandomWriter implements TextProcessor {
       
       //since we add a space at the end of each line, stop iteration at length-1 to ignore the last element (which is a space)
       //currentstring is the string of length level before index i, i is the index of the character to add to the map
+      //no longer need to iterate to length-1 because space no longer added to end of each line
       String cur;
-      for (int i = Level; i < alltext.length()-1; i ++) {
+      for (int i = Level; i < alltext.length(); i ++) {
         cur = currentString.toString();
         keys.add(cur);
 
@@ -183,17 +191,13 @@ public class RandomWriter implements TextProcessor {
       //essentially, currentString resets
       //so technically "abddddddddd" is a valid output ;-;
 
-      //add 1 chracter at a time in case output < level
       StringBuilder output = new StringBuilder();
-      for (int i = 0; i < Math.min(length, Level); i++) {
-        output.append(currentString.charAt(i));
-      }
-
-
-      char curChar;
+            
+      //iterate from 0 instead of level
+      Character curChar;
       String curString;
       ArrayList<Character> curValue;
-      for (int i = Level; i < length; i++) {
+      for (int i = 0; i < length; i++) {
         curString = currentString.toString(); //current key (string of length Level)
 
         //if curstring doesnt exist in the map, make curString a new random starting string
